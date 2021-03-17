@@ -1,9 +1,7 @@
 import * as t from "three"
 import * as Window from "../../lib/Window"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { set, assoc, identity, lens, pipe, prop, view, tap } from "ramda";
-
-const trace = tap( console.log )
+import { set, assoc, identity, lens, pipe, prop } from "ramda";
 
 const Lens = {
     camera: lens( prop( "camera" ), assoc( "camera" ) ),
@@ -43,7 +41,7 @@ const createCamera = () => {
         0.1,
         1000,
     )
-    camera.position.z = 3
+    camera.position.z = 10
     return camera
 }
 
