@@ -48,58 +48,63 @@ const createCamera = () => {
 const createScene = () => {
     const scene = new t.Scene()
     scene.background = new t.Color( 0x000000 )
-    scene.fog = new t.FogExp2( 0x000000, 0.0015 ) // soften all the edges
+    scene.fog = new t.Fog( 0x111111, 150, 200 )
     return scene
 }
 
 const createRenderer = () => {
-    const renderer = new t.WebGLRenderer()
+    const renderer = new t.WebGLRenderer( { antialias: true } )
     renderer.setSize( Window.width(), Window.height() )
     return renderer
 }
 
-const createLights = () => {
-    const directional = new t.DirectionalLight( 0xffffff )
-    directional.position.set( 0, 30, 40 )
+const createLights = () => []
 
-    const ambient = new t.AmbientLight( 0x707070 )
-
-    return [
-        directional,
-        ambient,
-    ]
-}
-
-
-const createPoints = () => {
+const createPoints = ( yDelta = 0 ) => {
     const pnts = [
-        new t.Vector3(-10, 0, 0), // a 1d array of triples
-        new t.Vector3(0, 10, 0),
-        new t.Vector3(10, 0, 0),
+        new t.Vector3( -10, yDelta, 0 ), // a 1d array of triples
+        new t.Vector3( 0, 10 + yDelta, 0 ),
+        new t.Vector3( 10, yDelta, 0 ),
     ]
     return pnts
 }
 
 const createMeshes = () => {
-    //points
-    const points = createPoints()
-    console.table( { points } )
+    // solid
+    const basicPoints = createPoints()
+    const basicGeo = new t.BufferGeometry().setFromPoints( basicPoints )
+    const basicMat = new t.LineBasicMaterial( {
+        color: 0x3EB595,
+        linewidth: 3,
+        linecap: "round",
+        linejoin: "round",
+    } );
+    const basicLine = new t.Line( basicGeo, basicMat )
 
-    //geometry
-    const geo = new t.BufferGeometry().setFromPoints(points)
-    // geo.setAttribute( "position", new t.Float32BufferAttribute( points, 3 ) )
-    console.log( { geo } )
+    // dashed
+    const dashedPoints = createPoints( 10 )
+    const dashedGeo = new t.BufferGeometry().setFromPoints( dashedPoints )
+    const dashedMat = new t.LineDashedMaterial( {
+        color: 0xFFF447,
+        linewidth: 2,
+        dashSize: 3,
+        gapSize: 1,
+    } )
+    const dashedLine = new t.Line( dashedGeo, dashedMat )
 
-    //material
-    const mat = new t.LineBasicMaterial( {color: 0xff0000} );
-    console.log( { mat } )
+    // dashed - crucial
+    dashedLine.computeLineDistances() // crucial
 
-    //mesh
-    const mesh = new t.Line( geo, mat )
-    console.log( { mesh } )
+    //log
+    console.log( { basicPoints } )
+    console.log( { dashedPoints } )
+    console.log( { basicGeo } )
+    console.log( { basicMat } )
+    console.log( { dashedMat } )
 
     return [
-        mesh,
+        basicLine,
+        dashedLine
     ]
 }
 
