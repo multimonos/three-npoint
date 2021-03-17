@@ -7,7 +7,8 @@ import { pipe } from "ramda";
 
 export const App = () => {
 
-    const createState = () => State.create()
+    const createState = () =>
+        State.create()
 
     const setup = state => {
         Scene.add( state.meshes )( state.scene )
@@ -20,7 +21,8 @@ export const App = () => {
         return state
     }
 
-    const update = state => state
+    const update = state =>
+        state
 
     const run = () => {
         const state = createState()

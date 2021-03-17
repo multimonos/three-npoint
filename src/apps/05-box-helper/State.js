@@ -41,7 +41,7 @@ const createCamera = () => {
         2,
         1000,
     )
-    camera.position.z = 50
+    camera.position.z = 10
     return camera
 }
 
@@ -60,51 +60,15 @@ const createRenderer = () => {
 
 const createLights = () => []
 
-const createPoints = ( yDelta = 0 ) => {
-    const pnts = [
-        new t.Vector3( -10, yDelta, 0 ), // a 1d array of triples
-        new t.Vector3( 0, 10 + yDelta, 0 ),
-        new t.Vector3( 10, yDelta, 0 ),
-    ]
-    return pnts
-}
-
 const createMeshes = () => {
-    // solid
-    const basicPoints = createPoints()
-    const basicGeo = new t.BufferGeometry().setFromPoints( basicPoints )
-    const basicMat = new t.LineBasicMaterial( {
-        color: 0x3EB595,
-        linewidth: 3,
-        linecap: "round",
-        linejoin: "round",
-    } );
-    const basicLine = new t.Line( basicGeo, basicMat )
+    const sphere = new t.SphereGeometry();
+    const mesh = new t.Mesh( sphere, new t.MeshBasicMaterial( 0xff0000 ) );
 
-    // dashed
-    const dashedPoints = createPoints( 10 )
-    const dashedGeo = new t.BufferGeometry().setFromPoints( dashedPoints )
-    const dashedMat = new t.LineDashedMaterial( {
-        color: 0xFFF447,
-        linewidth: 2,
-        dashSize: 3,
-        gapSize: 1,
-    } )
-    const dashedLine = new t.Line( dashedGeo, dashedMat )
-
-    // dashed - crucial
-    dashedLine.computeLineDistances() // crucial
-
-    //log
-    console.log( { basicPoints } )
-    console.log( { dashedPoints } )
-    console.log( { basicGeo } )
-    console.log( { basicMat } )
-    console.log( { dashedMat } )
+    const boxHelper = new t.BoxHelper( mesh, 0xffff00 );
 
     return [
-        basicLine,
-        dashedLine
+        boxHelper,
+        mesh,
     ]
 }
 
