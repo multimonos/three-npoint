@@ -86,27 +86,24 @@ const createVertices = () => {
 }
 
 const createMeshes = () => {
-    //verices
     const vertices = createVertices()
-    console.log( { vertices } )
 
-    //geometry
     const geo = new t.BufferGeometry()
     geo.setAttribute( "position", new t.Float32BufferAttribute( vertices, 3 ) )
-    console.log( { geo } )
 
-    //material
     const mat = new t.PointsMaterial( {
-        size: 10,
-        sizeAttenuation: true, // point sizes do not change as we zoom in
+        size: 3,
+        sizeAttenuation: true, // point sizes change as we zoom in
         alphaTest: 0.5,
         transparent: true
     } );
     mat.color.setHSL( 1.0, 0.3, 0.7 );
-    console.log( { mat } )
 
-    // mesh
     const pnts = new t.Points( geo, mat )
+
+    console.log( { vertices } )
+    console.log( { geo } )
+    console.log( { mat } )
     console.log( { pnts } )
 
     return [
