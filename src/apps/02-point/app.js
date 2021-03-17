@@ -3,7 +3,7 @@ import * as Scene from "../../lib/Scene"
 import * as Renderer from "../../lib/Renderer"
 import * as Window from "../../lib/Window"
 import { addEvent } from "../../lib/Util";
-import { head, pipe } from "ramda";
+import { pipe } from "ramda";
 
 export const App = () => {
 
