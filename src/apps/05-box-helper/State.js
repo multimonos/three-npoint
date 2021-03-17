@@ -48,7 +48,6 @@ const createCamera = () => {
 const createScene = () => {
     const scene = new t.Scene()
     scene.background = new t.Color( 0x000000 )
-    scene.fog = new t.Fog( 0x111111, 150, 200 )
     return scene
 }
 
