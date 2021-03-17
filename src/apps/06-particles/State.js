@@ -103,7 +103,6 @@ const createPointCloud = () => {
     const mat = createPointMaterial()
 
     const particles = new t.BufferGeometry()
-    particles.setDrawRange( 0, count ) // count of points to consume for drawing
     particles.setAttribute( 'position', new t.BufferAttribute( pnts, 3 ) )
 
     const cloud = new t.Points( particles, mat )
