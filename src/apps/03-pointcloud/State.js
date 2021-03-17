@@ -96,7 +96,7 @@ const createMeshes = () => {
 
     const mat = new t.PointsMaterial( {
         size: 10,
-        sizeAttenuation: false, // point sizes do not change as we zoom in
+        sizeAttenuation: true, // point sizes do not change as we zoom in
         alphaTest: 0.5,
         transparent: true
     } );
