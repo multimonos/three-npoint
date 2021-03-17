@@ -1,0 +1,34 @@
+{
+    "name": "@multimonos/three-racing-game",
+    "version": "1.0.0",
+    "description": "threejs racing game",
+    "main": "./src/index.js",
+    "scripts": {
+        "test": "npx jest",
+        "dev": "npx parcel src/*.html",
+        "preinstall": "npx npm-force-resolutions"
+    },
+    "resolutions": {
+        "@babel/preset-env": "7.13.8"
+    },
+    "keywords": [
+        "threejs",
+        "parceljs",
+        "cannonjs",
+        "ramda"
+    ],
+    "author": "craig hopgood <searaig@gmail.com> (https://multimonos.com)",
+    "license": "MIT",
+    "dependencies": {
+        "cannon": "^0.6.2",
+        "ramda": "^0.27.1",
+        "three": "^0.126.1"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.13.10",
+        "@babel/preset-env": "^7.13.8",
+        "npm-force-resolutions": "0.0.10",
+        "parcel": "^1.12.3",
+        "parcel-plugin-static-files-copy": "^2.5.1"
+    }
+}
