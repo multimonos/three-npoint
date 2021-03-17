@@ -11,8 +11,8 @@ export const App = () => {
     const createState = () => State.create()
 
     const setup = state => {
-        Scene.addMeshes( state.meshes )( state.scene )
-        Scene.addLights( state.lights )( state.scene )
+        Scene.add( state.meshes )( state.scene )
+        Scene.add( state.lights )( state.scene )
         Renderer.addToDom( state.renderer )
         Window.addResizeHandler( state.renderer )( state.camera )
 

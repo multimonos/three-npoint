@@ -6,14 +6,9 @@ const isObject =
 const isArray =
     pipe( type, equals( "Array" ) )
 
-export const addLights = lights => scene =>
+export const add = objects => scene =>
     cond( [
         [isArray, map( v => scene.add( v ) )],
         [isObject, mapObjIndexed( ( v, k, o ) => scene.add( v ) )],
-    ] )( lights )
+    ] )( objects )
 
-export const addMeshes = meshes => scene =>
-    cond( [
-        [isArray, map( v => scene.add( v ) )],
-        [isObject, mapObjIndexed( ( v, k, o ) => scene.add( v ) )],
-    ] )( meshes )
