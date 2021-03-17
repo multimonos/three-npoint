@@ -48,7 +48,7 @@ const createCamera = () => {
 const createScene = () => {
     const scene = new t.Scene()
     scene.background = new t.Color( 0x000000 )
-    scene.fog = new t.FogExp2( 0x000000, 0.0015 ) // soften all the edges
+    scene.fog = new t.FogExp2( 0x000000, 0.001 ) // soften all the edges
     return scene
 }
 
