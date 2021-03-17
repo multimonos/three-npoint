@@ -16,8 +16,8 @@ export const App = () => {
         Renderer.addToDom( state.renderer )
         Window.addResizeHandler( state.renderer )( state.camera )
 
-        console.log( { state } )
         console.log( { path: document.location.pathname.replace( '/index.html', '' ) } )
+        console.log( { state } )
 
         return state
     }
