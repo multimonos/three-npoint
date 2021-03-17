@@ -17,6 +17,7 @@ export const App = () => {
         Window.addResizeHandler( state.renderer )( state.camera )
 
         console.log( { state } )
+        console.log( { path: document.location.pathname.replace( '/index.html', '' ) } )
 
         return state
     }
