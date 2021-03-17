@@ -1,5 +1,10 @@
-import { cond, map, mapObjIndexed } from "ramda";
-import { isArray, isObject } from "./Util";
+import { cond, equals, map, mapObjIndexed, pipe, type } from "ramda";
+
+const isObject =
+    pipe( type, equals( "Object" ) )
+
+const isArray =
+    pipe( type, equals( "Array" ) )
 
 export const addLights = lights => scene =>
     cond( [
