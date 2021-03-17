@@ -70,7 +70,7 @@ const createVertices = () => {
 const createMeshes = () => {
     //vertices
     const vertices = createVertices()
-    console.log( { vertices } )
+    console.table( { vertices } )
 
     //geometry
     const geo = new t.BufferGeometry()
