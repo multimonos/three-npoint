@@ -47,7 +47,7 @@ export const App = () => {
 }
 
 addEvent( "load" )( window )( () => {
-    console.log( 'ohai ;)' )
+    // console.log( 'ohai ;)' )
     const app = App()
     app.run()
 } )
