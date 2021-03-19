@@ -73,7 +73,8 @@ const createCabin = () => {
     return cabin
 }
 
-const pickRandom = colors => colors[Math.floor( Math.random() * colors.length )]
+const pickRandom = colors =>
+    colors[Math.floor( Math.random() * colors.length )]
 
 const createCarFrontTexture = () => {
     const canvas = document.createElement( "canvas" )
@@ -89,8 +90,6 @@ const createCarFrontTexture = () => {
     ctx.fillRect( 8, 8, 48, 24 )
 
     const texture = new t.CanvasTexture( canvas )
-
-
     return texture
 }
 

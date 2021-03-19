@@ -4,7 +4,6 @@ import * as Scene from "../../lib/Scene"
 import * as Renderer from "../../lib/Renderer"
 import * as Window from "../../lib/Window"
 import { addEvent } from "../../lib/Util";
-import { head, pipe } from "ramda";
 
 export const App = () => {
 
@@ -15,28 +14,23 @@ export const App = () => {
         Scene.add( state.lights )( state.scene )
         Renderer.addToDom( state.renderer )
         Window.addResizeHandler( state.renderer )( state.camera )
+        Window.addEvent( "keydown" )( State.handleKeydown.bind( null, state ) )
 
-        // console.log( { path: document.location.pathname.replace( '/index.html', '' ) } )
         console.log( { state } )
 
         return state
     }
 
-    const update = state => state
-
     const run = () => {
         const state = createState()
         setup( state )
-        animate( state )
+        animate( state, null )
     }
 
-    const animate = state => {
-        const nextState = pipe(
-            State.next,
-            update,
-        )( state )
+    const animate = ( state, dt ) => {
+        const nextState = State.next(state)
 
-        requestAnimationFrame( () => animate( nextState ) )
+        requestAnimationFrame( animate.bind( null, nextState ) )
 
         nextState.renderer.render( state.scene, state.camera )
     }
