@@ -1,80 +1,53 @@
+import * as Camera from "./lib/Camera"
+import * as Controls from "./lib/OrbitControls"
+import * as Lights from "./lib/Lights"
+import * as Renderer from "./lib/Renderer"
+import * as Scene from "./lib/Scene"
+import * as Timer from "./lib/Timer";
 import * as t from "three"
-import * as Window from "../../lib/Window"
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { set, assoc, lens, pipe, prop } from "ramda";
+import { identity, pipe } from "ramda";
 
-const Lens = {
-    camera: lens( prop( "camera" ), assoc( "camera" ) ),
-    controls: lens( prop( "controls" ), assoc( "controls" ) ),
-    lights: lens( prop( "lights" ), assoc( "lights" ) ),
-    meshes: lens( prop( "meshes" ), assoc( "meshes" ) ),
-    renderer: lens( prop( "renderer" ), assoc( "renderer" ) ),
-    scene: lens( prop( "scene" ), assoc( "scene" ) ),
-}
+export const create = () => {
 
-export const create = ( defaults = {} ) => {
-    let state = pipe(
-        set( Lens.scene, createScene() ),
-        set( Lens.camera, createCamera() ),
-        set( Lens.renderer, createRenderer() ),
-        set( Lens.meshes, createMeshes() ),
-        set( Lens.lights, createLights() ),
-    )( defaults )
+    const scene = Scene.create()
+    const camera = Camera.create()
+    const renderer = Renderer.create()
+    const lights = Lights.create()
+    const controls = Controls.create( camera, renderer )
+    const timer = Timer.create()
 
-    state = set( Lens.controls, createControls( state.camera, state.renderer ) )( state )
+    let state = {
+        scene,
+        camera,
+        renderer,
+        controls,
+        lights,
+        timer,
+        meshes: createMeshes(),
+    }
 
     return state
 }
 
-export const next = state => state
+export const next = state => pipe(
+    identity,
+    Timer.next,
+    rotateBox,
+)( state )
 
-const createControls = ( camera, renderer ) =>
-    new OrbitControls( camera, renderer.domElement )
-
-const createCamera = () => {
-    const camera = new t.PerspectiveCamera(
-        75,
-        Window.aspectRatio(),
-        0.1,
-        1000,
-    )
-    camera.position.z = 10
-    camera.position.x = 5
-    camera.position.y = 5
-    return camera
-}
-
-const createScene = () => {
-    const scene = new t.Scene()
-    scene.background = new t.Color( 0x000000 )
-    return scene
-}
-
-const createRenderer = () => {
-    const renderer = new t.WebGLRenderer()
-    renderer.setSize( Window.width(), Window.height() )
-    return renderer
-}
-
-const createLights = () => {
-    const directional = new t.DirectionalLight( 0xffffff )
-    directional.position.set( 0, 20, 10 )
-
-    const ambient = new t.AmbientLight( 0x707070 )
-
-    return [
-        directional,
-        ambient,
-    ]
-}
 
 const createMeshes = () => {
     const geo = new t.BoxGeometry()
-    const mat = new t.MeshPhongMaterial( { color: 0x00aaff } )
+    const mat = new t.MeshLambertMaterial( { color: 0x00aaff } )
     const box = new t.Mesh( geo, mat )
 
-    return [
+    return {
         box,
-    ]
+    }
 }
 
+const rotateBox = state => {
+    state.meshes.box.rotation.y += 0.01
+    state.meshes.box.rotation.z += 0.01
+    return state
+}
