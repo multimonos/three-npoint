@@ -1,4 +1,4 @@
-import { assoc, identity, pipe } from "ramda";
+import { assoc, equals, flatten, identity, ifElse, lensPath, path, pipe, prop, set, tap } from "ramda";
 import * as Hit from "./Hit"
 import * as Dimensions from "./Dimensions"
 import * as Ground from "./Ground"
@@ -41,23 +41,36 @@ export const create = ( defaults = {} ) => {
     return state
 }
 
+const isGameOver = state => {
+    return state.game.started
+        && state.game.hit
+}
+
+const trace = tap(console.log)
 export const next = state => pipe(
-    identity,
     nextTimer,
     detectCollisions,
-    movePlayer,
-    moveTraffic,
+    ifElse(
+        isGameOver,
+        resetGame,
+        pipe(
+            movePlayer,
+            moveTraffic,
+        )
+    ),
+    set(lensPath(['game','started']), true)
 )( state )
 
 const nextTimer = state =>
     assoc( "timer", Timer.next( state.timer ), state )
 
-const getMesh = id => state =>
-    state.meshes[id]
+const resetGame = state => {
+    console.log( 'game over' )
+    return state
+}
 
 const addMeshes = objs => state => {
     objs.map( obj => {
-        console.log( obj )
         state.meshes[obj.id] = obj.mesh
     } )
     return state
@@ -75,9 +88,9 @@ export const handleKeydown = ( state, event ) => {
 }
 
 const detectCollisions = state => {
-    const playerZones = Hit.zonesFor( state.game.hitRadius )( state.player )
-    const machineZones = Hit.zonesFor( state.game.hitRadius )( state.traffic )
-    state.hit = Hit.detect( playerZones, machineZones )
+    const playerZones = Hit.zonesFor( state.player )
+    const machineZones = flatten( state.traffic.map( Hit.zonesFor ) )
+    state.game.hit = Hit.detect( state.game.hitRadius )( machineZones )( playerZones )
     return state
 }
 
@@ -120,4 +133,5 @@ const createGameState = () => ({
     isReady: true,
     hitRadius: 15,
     hit: false,
+    started: false,
 })
