@@ -1,4 +1,4 @@
-export const create= ( {
+export const create = ( {
     id = null,
     mesh = null,
     track = "right",
