@@ -3,7 +3,9 @@ import { WebGLRenderer } from "three";
 
 export const create = () => {
 
-    const renderer = new WebGLRenderer()
+    const renderer = new WebGLRenderer( {
+        antialias: true
+    } )
 
     renderer.setSize( width(), height() )
 
