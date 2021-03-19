@@ -1,4 +1,4 @@
-import { assoc, equals, flatten, identity, ifElse, lensPath, path, pipe, prop, set, tap } from "ramda";
+import { assoc, flatten, ifElse, lensPath, pipe, set } from "ramda";
 import * as Hit from "./Hit"
 import * as Dimensions from "./Dimensions"
 import * as Ground from "./Ground"
@@ -46,7 +46,6 @@ const isGameOver = state => {
         && state.game.hit
 }
 
-const trace = tap(console.log)
 export const next = state => pipe(
     nextTimer,
     detectCollisions,
