@@ -1,8 +1,8 @@
 import "./style.css"
-import * as State from "./State"
-import * as Scene from "./lib/Scene"
-import * as Renderer from "./lib/Renderer"
-import * as Window from "./lib/Window"
+import * as State from "./lib/State"
+import * as Scene from "./lib/core/Scene"
+import * as Renderer from "./lib/core/Renderer"
+import * as Window from "./lib/core/Window"
 
 export const App = () => {
 

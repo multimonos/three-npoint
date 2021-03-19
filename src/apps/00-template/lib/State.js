@@ -1,9 +1,9 @@
-import * as Camera from "./lib/Camera"
-import * as Controls from "./lib/OrbitControls"
-import * as Lights from "./lib/Lights"
-import * as Renderer from "./lib/Renderer"
-import * as Scene from "./lib/Scene"
-import * as Timer from "./lib/Timer";
+import * as Camera from "./core/Camera"
+import * as Controls from "./core/OrbitControls"
+import * as Lights from "./core/Lights"
+import * as Renderer from "./core/Renderer"
+import * as Scene from "./core/Scene"
+import * as Timer from "./core/Timer";
 import * as t from "three"
 import { identity, pipe } from "ramda";
 
