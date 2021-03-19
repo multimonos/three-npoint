@@ -23,7 +23,8 @@ export const create = () => {
         controls,
         lights,
         timer,
-        meshes: createMeshes(),
+        //...custom objects @see ./lib/Agent.js
+        meshes: createWorld(),
     }
 
     return state
@@ -36,7 +37,7 @@ export const next = state => pipe(
 )( state )
 
 
-const createMeshes = () => {
+const createWorld = () => { // meshes that are either static or independent
     const geo = new t.BoxGeometry()
     const mat = new t.MeshLambertMaterial( { color: 0x00aaff } )
     const box = new t.Mesh( geo, mat )
