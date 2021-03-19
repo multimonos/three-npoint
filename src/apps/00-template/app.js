@@ -1,3 +1,4 @@
+import "./style.css"
 import * as State from "./State"
 import * as Scene from "./lib/Scene"
 import * as Renderer from "./lib/Renderer"
