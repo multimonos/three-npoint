@@ -39,7 +39,7 @@ export const next = state => pipe(
 
 const createWorld = () => { // meshes that are either static or independent
     const geo = new t.BoxGeometry()
-    const mat = new t.MeshLambertMaterial( { color: 0x00aaff } )
+    const mat = new t.MeshPhongMaterial( { color: 0x00aaff } )
     const box = new t.Mesh( geo, mat )
 
     return {
@@ -48,7 +48,7 @@ const createWorld = () => { // meshes that are either static or independent
 }
 
 const rotateBox = state => {
-    state.meshes.box.rotation.y += 0.01
-    state.meshes.box.rotation.z += 0.01
+    state.meshes.box.rotation.y += .5 * state.timer.delta
+    state.meshes.box.rotation.z += .5 * state.timer.delta
     return state
 }
