@@ -6,7 +6,8 @@ import * as Window from "./lib/core/Window"
 
 export const App = () => {
 
-    const createState = () => State.create()
+    const createState = () =>
+        State.create()
 
     const setup = state => {
         Scene.add( state.meshes )( state.scene )
@@ -26,7 +27,7 @@ export const App = () => {
     }
 
     const animate = ( state, dt ) => {
-        const nextState = State.next(state)
+        const nextState = State.next( state )
         requestAnimationFrame( animate.bind( null, nextState ) )
         nextState.renderer.render( nextState.scene, nextState.camera )
     }
