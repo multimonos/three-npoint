@@ -48,7 +48,6 @@ const createCamera = () => {
 const createScene = () => {
     const scene = new t.Scene()
     scene.background = new t.Color( 0x000000 )
-    scene.fog = new t.FogExp2( 0x000000, 0.0015 ) // soften all the edges
     return scene
 }
 
@@ -63,6 +62,8 @@ const createLights = () => [] // no light required
 const createVertices = () => {
     const vertices = [
         0, 0, 0, // a 1d array of triples
+        1, 1, 0,
+        -1, 1, 0,
     ]
     return vertices
 }
@@ -80,7 +81,7 @@ const createMeshes = () => {
     //material
     const mat = new t.PointsMaterial( {
         size: 5,
-        sizeAttenuation: true, // point size changes as we zoom in
+        sizeAttenuation: false, // point size changes as we zoom in
         alphaTest: 0.5,
         transparent: true
     } );
