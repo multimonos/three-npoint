@@ -54,18 +54,6 @@ const createWorld = () => { // meshes that are either static or independent
 }
 
 const moveParticlesDown = state => {
-    ParticleSystem.moveParticlesDown(state.meshes.particles)
-    return state
-
-    const positions = state.meshes.particles.geometry.attributes.position
-    for (let i = 0; i < positions.count; i++) {
-        let y = positions.getY( i ) - Math.random()
-        positions.setY(i, y)
-
-
-    }
-
-    state.meshes.particles.geometry.attributes.position.needsUpdate = true
-
+    ParticleSystem.moveParticlesDown(state.meshes.particles, state.timer.delta)
     return state
 }

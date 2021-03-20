@@ -1,26 +1,23 @@
 import * as t from "three";
 
 export const createParticles = ( { count = 100 } ) => {
-    const dim = 1000
+    const width = 1000
 
-    const vertices = createVertices( { count, width: dim } )
-    const geo = createGeometry(vertices)
+    const vertices = createVertices( { count, width } )
+    const geo = createGeometry( vertices )
     const mat = createMaterial()
-    const points = new t.Points( geo, mat )
 
-    return points
+    return new t.Points( geo, mat )
 }
 
-const createGeometry = vertices => {
-    const geo = new t.BufferGeometry()
-    geo.setAttribute( 'position', new t.Float32BufferAttribute( vertices, 3 ) )
-    return geo
-}
+const createGeometry = vertices =>
+    new t.BufferGeometry()
+        .setAttribute( 'position', new t.Float32BufferAttribute( vertices, 3 ) )
 
 const createMaterial = () =>
     new t.ParticleBasicMaterial( {
         color: 0xffffff,
-        size: 3,
+        size: 2,
         sizeAttenuation: false,
         transparent: true,
         blend: t.AdditiveBlending,
@@ -33,18 +30,25 @@ const createVertices = ( { count = 10, width = 10 } ) => {
 
     for (let i = 0; i < count; i++) {
         const x = (i - half) * dx
-        vertices.push( x, 0, 0 )
+        const y = 0
+        vertices.push(
+            x,
+            y,
+            0
+        )
     }
 
     return vertices
 }
 
-export const moveParticlesDown = mesh => {
+export const moveParticlesDown = ( mesh, delta ) => {
     const positions = mesh.geometry.attributes.position
+    const speed = -50
 
     for (let i = 0; i < positions.count; i++) {
-        let y = positions.getY( i ) - Math.random()
-        positions.setY(i, y)
+        let y = positions.getY( i )
+            + speed * delta * Math.random()
+        positions.setY( i, y )
     }
 
     mesh.geometry.attributes.position.needsUpdate = true
