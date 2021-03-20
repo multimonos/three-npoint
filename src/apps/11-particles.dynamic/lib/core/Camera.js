@@ -7,10 +7,10 @@ export const create = () => {
         75,
         aspectRatio(),
         0.1,
-        1000,
+        2000,
     )
 
-    camera.position.z = 3
+    camera.position.z =1000
     camera.position.x = 0
     camera.position.y = 0
 
