@@ -10,9 +10,9 @@ export const create = () => {
         1000,
     )
 
-    camera.position.z = 200
+    camera.position.z = 60
     camera.position.x = 0
-    camera.position.y = 0
+    camera.position.y =20
 
     return camera
 }
