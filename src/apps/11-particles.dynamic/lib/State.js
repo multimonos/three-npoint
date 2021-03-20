@@ -5,7 +5,8 @@ import * as Renderer from "./core/Renderer"
 import * as Scene from "./core/Scene"
 import * as Timer from "./core/Timer";
 import * as t from "three"
-import { identity, pipe } from "ramda";
+import { identity, once, pipe } from "ramda";
+import * as ParticleSystem from "./Particles";
 
 export const create = () => {
 
@@ -33,45 +34,18 @@ export const create = () => {
 export const next = state => pipe(
     identity,
     Timer.next,
-    rotateParticleSystem,
+    moveParticlesDown,
 )( state )
 
-const createParticleSystem = ( { count = 100 } ) => {
-    const dim = 500
-    const position = domain => Math.random() * domain - 0.5 * domain
 
-    const geo = new t.BufferGeometry()
-    const mat = new t.ParticleBasicMaterial( {
-        color: 0xffffff,
-        size: 3,
-        sizeAttenuation:false,
-    } )
-
-    const vertices = []
-    for (let i = 0; i < count; i++) {
-        vertices.push(
-            position( dim ),
-            position( dim ),
-            position( dim ),
-        )
-    }
-
-    geo.setAttribute( 'position', new t.Float32BufferAttribute( vertices, 3 ) )
-    console.log( { geo } )
-    console.log( { vertices } )
-
-    const particles = new t.Points( geo, mat )
-    return particles
-
-
-}
+const log = once( console.log )
 
 const createWorld = () => { // meshes that are either static or independent
-    const geo = new t.BoxGeometry()
+    const geo = new t.BoxGeometry(30,30,30)
     const mat = new t.MeshPhongMaterial( { color: 0x00aaff } )
     const box = new t.Mesh( geo, mat )
 
-    const particles = createParticleSystem( { count: 200 } )
+    const particles = ParticleSystem.createParticles( { count: 100 } )
 
     return {
         box,
@@ -79,8 +53,19 @@ const createWorld = () => { // meshes that are either static or independent
     }
 }
 
-const rotateParticleSystem = state => {
-    state.meshes.particles.rotation.z += state.timer.delta * .1
-    state.meshes.particles.rotation.x += state.timer.delta * .5
+const moveParticlesDown = state => {
+    ParticleSystem.moveParticlesDown(state.meshes.particles)
+    return state
+
+    const positions = state.meshes.particles.geometry.attributes.position
+    for (let i = 0; i < positions.count; i++) {
+        let y = positions.getY( i ) - Math.random()
+        positions.setY(i, y)
+
+
+    }
+
+    state.meshes.particles.geometry.attributes.position.needsUpdate = true
+
     return state
 }
